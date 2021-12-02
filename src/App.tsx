@@ -1,8 +1,13 @@
-import { Box } from "@mui/system";
-import React, { FC } from "react";
+import { FC } from "react";
+import Layout from "./components/Layout";
+import { ThemeProvider } from "./context/ThemeProvider";
 
 const App: FC = () => {
-  return <Box>hello</Box>;
+  return (
+    <ThemeProvider>
+      <Layout />
+    </ThemeProvider>
+  );
 };
 
 export default App;
