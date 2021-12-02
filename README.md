@@ -10,6 +10,8 @@ This project was implemented with [Create React App](https://github.com/facebook
 
 ![](project-gif.gif)
 
+##### palettes designed by [Hamidreza Khosravi](https://github.com/hrkhosravi)
+
 ## Development
 
 Install all dependencies, in repo's root:
