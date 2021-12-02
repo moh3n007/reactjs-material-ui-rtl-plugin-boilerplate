@@ -1,14 +1,17 @@
 import { Direction } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ThemeProvider as MUIThemeProvider,
   createTheme,
 } from "@mui/material/styles";
 import { palettes } from "./palettes";
+import { StyleSheetManager } from "styled-components";
+import stylisRTLPlugin from "stylis-plugin-rtl";
 
 const defaultContext: any = {
   direction: "ltr",
   setDirection: (direction: Direction) => {},
+  theme: {},
 };
 
 const ThemeContext = React.createContext(defaultContext);
@@ -29,12 +32,18 @@ export const ThemeProvider: React.FunctionComponent = (props: any) => {
   });
 
   return (
-    <ThemeContext.Provider value={{ direction, setDirection }}>
+    <ThemeContext.Provider value={{ direction, setDirection, theme }}>
       <MUIThemeProvider theme={theme}>
-        {/* <StylesProvider jss={jss as Jss} generateClassName={generateClassName}> */}
-        {props.children}
+        <StyleSheetManager
+          stylisPlugins={direction === "rtl" ? [stylisRTLPlugin] : []}
+        >
+          {/* <StylesProvider jss={jss as Jss} generateClassName={generateClassName}> */}
+          {props.children}
+        </StyleSheetManager>
         {/* </StylesProvider> */}
       </MUIThemeProvider>
     </ThemeContext.Provider>
   );
 };
+
+export const useTheme = () => useContext(ThemeContext);
