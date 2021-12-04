@@ -1,11 +1,11 @@
 import { Direction, Theme } from "@mui/system";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import {
   ThemeProvider as MUIThemeProvider,
   createTheme,
 } from "@mui/material/styles";
 import { palettes } from "./palettes";
-import { StyleSheetManager } from "styled-components";
+import { StyleSheetManager, StylisPlugin } from "styled-components";
 import stylisRTLPlugin from "stylis-plugin-rtl";
 
 interface IThemeContext {
@@ -41,14 +41,18 @@ export const ThemeProvider: React.FunctionComponent = (props: any) => {
     palette: palettes[paletteNumber],
   });
 
+  const StylishPlugin = useMemo(
+    () =>
+      direction === "rtl" ? [stylisRTLPlugin as unknown as StylisPlugin] : [],
+    [direction]
+  );
+
   return (
     <ThemeContext.Provider
       value={{ direction, setDirection, theme, choosePalette }}
     >
       <MUIThemeProvider theme={theme}>
-        <StyleSheetManager
-          stylisPlugins={direction === "rtl" ? [stylisRTLPlugin] : []}
-        >
+        <StyleSheetManager stylisPlugins={StylishPlugin}>
           {/* <StylesProvider jss={jss as Jss} generateClassName={generateClassName}> */}
           {props.children}
         </StyleSheetManager>
